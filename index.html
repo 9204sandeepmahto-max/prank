@@ -1,0 +1,542 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>DON'T PRESS IT 💀</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: #fff;
+}
+
+/* FIRST PAGE */
+.page {
+  position: fixed;
+  inset: 0;
+}
+
+#page1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  gap: 36px;
+  padding: 20px;
+  z-index: 10;
+}
+
+/* BIG GLOSSY 3D BUTTON */
+#btn {
+  position: relative;
+  width: clamp(220px, 65vw, 290px);
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  border: 7px solid #b90000;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 12%,
+      #ff8585 0%,
+      #ff3333 10%,
+      transparent 31%
+    ),
+    radial-gradient(
+      ellipse at 50% 38%,
+      #ff2525 0%,
+      #f00000 40%,
+      #c90000 65%,
+      #8c0000 83%,
+      #ff3636 91%,
+      #b90000 100%
+    );
+
+  box-shadow:
+    inset 0 5px 5px #ff9a9a,
+    inset 0 -12px 15px #780000,
+    inset 0 0 0 5px #f51b1b,
+    0 8px 0 #750000,
+    0 13px 0 #450000,
+    0 20px 25px #0005;
+
+  transition:
+    transform .12s ease,
+    box-shadow .12s ease,
+    filter .12s ease;
+}
+
+#btn::before {
+  content: "";
+  position: absolute;
+  inset: 7%;
+  border-radius: 50%;
+  border: 4px solid #ff5a5a;
+  box-shadow:
+    inset 0 5px 12px #a00000,
+    0 2px 4px #ff8a8a;
+}
+
+#btn::after {
+  content: "";
+  position: absolute;
+  width: 43%;
+  height: 12%;
+  top: 12%;
+  left: 27%;
+  border-top: 9px solid #ff9d9d;
+  border-radius: 50%;
+  transform: rotate(12deg);
+  filter: blur(1px);
+}
+
+#btn:active {
+  transform: translateY(10px) scale(.97);
+  box-shadow:
+    inset 0 8px 12px #850000,
+    inset 0 -4px 8px #ff5555,
+    inset 0 0 0 5px #f51b1b,
+    0 2px 0 #750000;
+}
+
+.warning {
+  max-width: 350px;
+  text-align: center;
+  font-size: clamp(14px, 4vw, 19px);
+  font-weight: 900;
+  line-height: 1.7;
+  color: #191919;
+}
+
+.warning small {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: #777;
+}
+
+/* SECOND PAGE */
+#page2 {
+  display: none;
+  background: #000;
+  overflow: hidden;
+  isolation: isolate;
+  transform-origin: center;
+}
+
+#photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  background: #000;
+  z-index: 0;
+}
+
+/* RANDOM TEXT LAYER */
+#rain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.fall {
+  position: absolute;
+  top: -90px;
+  max-width: 92%;
+  width: max-content;
+  white-space: nowrap;
+  color: #fff;
+  font-size: var(--size, 30px);
+  font-weight: 1000;
+  letter-spacing: .2px;
+  text-shadow:
+    0 3px 5px #000,
+    0 0 9px #ff36bc,
+    0 0 18px #ff36bc;
+  animation: fall var(--duration, 3s) linear forwards;
+  will-change: transform;
+}
+
+@keyframes fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(var(--angle));
+    opacity: 0;
+  }
+
+  8% { opacity: 1; }
+
+  25% {
+    transform: translate3d(var(--drift1), 25vh, 0)
+      rotate(calc(var(--angle) * -1));
+  }
+
+  50% {
+    transform: translate3d(var(--drift2), 50vh, 0)
+      rotate(var(--angle));
+  }
+
+  75% {
+    transform: translate3d(var(--drift3), 75vh, 0)
+      rotate(calc(var(--angle) * -1));
+  }
+
+  100% {
+    transform: translate3d(var(--drift4), 115vh, 0)
+      rotate(var(--angle));
+    opacity: .9;
+  }
+}
+
+/* SUBTLE BEAT PULSE */
+#page2.bounce {
+  animation: smoothBeat .28s ease-out;
+}
+
+@keyframes smoothBeat {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.012); }
+}
+
+/* RAINBOW FM PLAYER */
+#fm-visualizer {
+  position: absolute;
+  z-index: 5;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 105px;
+  padding: 10px 4% max(12px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to top, #000f, #000a 55%, transparent);
+  pointer-events: none;
+}
+
+#fm-bars {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.fm-bar {
+  flex: 1;
+  max-width: 8px;
+  min-width: 2px;
+  height: 4px;
+  border-radius: 8px;
+  background: hsl(var(--hue), 100%, 55%);
+  box-shadow: 0 0 8px hsl(var(--hue), 100%, 55%);
+}
+
+#fm-visualizer svg {
+  position: absolute;
+  inset: 10px 0;
+  width: 100%;
+  height: 60px;
+  overflow: visible;
+}
+
+.wave {
+  fill: none;
+  stroke-width: 1.5;
+  opacity: .7;
+  stroke-dasharray: 5 4;
+  animation: waveMove 3s linear infinite;
+}
+
+.wave1 { stroke: #ff55dc; }
+.wave2 {
+  stroke: #36eaff;
+  animation-direction: reverse;
+}
+
+@keyframes waveMove {
+  to { stroke-dashoffset: -90; }
+}
+
+@media (max-width: 600px) {
+  #page1 { gap: 30px; }
+
+  #btn {
+    width: min(68vw, 270px);
+  }
+
+  #fm-visualizer {
+    height: 90px;
+    padding-inline: 3%;
+  }
+
+  #fm-bars {
+    height: 58px;
+    gap: 2px;
+  }
+
+  .fall {
+    max-width: 92%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave { animation-duration: 8s; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- FIRST SCREEN -->
+<section class="page" id="page1">
+  <button id="btn" aria-label="Press the red button"></button>
+
+  <div class="warning">
+    ⚠️ PLEASE DON'T PRESS THIS BUTTON ⚠️
+    <small>Seriously. Don't do it. I'm warning you. 😭</small>
+  </div>
+</section>
+
+<!-- PRANK SCREEN -->
+<section class="page" id="page2">
+
+  <img
+    id="photo"
+    src="Screenshot 2026-10-26 084237.png"
+    alt=""
+  >
+
+  <div id="rain"></div>
+
+  <div id="fm-visualizer">
+    <div id="fm-bars"></div>
+
+    <svg viewBox="0 0 400 60" preserveAspectRatio="none">
+      <path class="wave wave1"
+        d="M0 30 Q50 0 100 30 T200 30 T300 30 T400 30"/>
+      <path class="wave wave2"
+        d="M0 30 Q50 60 100 30 T200 30 T300 30 T400 30"/>
+    </svg>
+  </div>
+
+</section>
+
+<audio
+  id="music"
+  src="faaaaa-remix-viral-faaaaa-meme-song-music-zone-1_pYnVpS2G.mp3"
+  preload="auto"
+  loop>
+</audio>
+
+<script>
+const btn = document.getElementById("btn");
+const page1 = document.getElementById("page1");
+const page2 = document.getElementById("page2");
+const music = document.getElementById("music");
+const rain = document.getElementById("rain");
+const fmBars = document.getElementById("fm-bars");
+
+let started = false;
+let audioCtx = null;
+let analyser = null;
+let audioSource = null;
+let freqData = null;
+let lastBeat = 0;
+let rafId = null;
+
+/* CREATE RAINBOW BARS */
+for (let i = 0; i < 48; i++) {
+  const bar = document.createElement("div");
+  bar.className = "fm-bar";
+  bar.style.setProperty("--hue", (i * 7.5) % 360);
+  fmBars.appendChild(bar);
+}
+
+/* RANDOM FALLING TEXT */
+function createText() {
+  if (!started) return;
+
+  const text = document.createElement("div");
+  text.className = "fall";
+
+  const words = [
+    "FAANHHHH 😂",
+    "FAANHHHH 💀",
+    "FAANHHHH 😭",
+    "FAANHHHH 🗿",
+    "FAANHHHH 🤣",
+    "FAANHHHH 😱"
+  ];
+
+  text.textContent =
+    words[Math.floor(Math.random() * words.length)];
+
+  // Random horizontal starting position, kept inside screen
+  const screenWidth = window.innerWidth;
+  const estimatedWidth = Math.min(screenWidth * 0.88, 330);
+  const maxLeft = Math.max(0, screenWidth - estimatedWidth);
+
+  text.style.left = Math.random() * maxLeft + "px";
+
+  // Different sizes, angles, drifting directions and speeds
+  text.style.setProperty(
+    "--size",
+    (18 + Math.random() * Math.min(20, screenWidth * 0.035)) + "px"
+  );
+
+  text.style.setProperty(
+    "--angle",
+    (Math.random() * 30 - 15) + "deg"
+  );
+
+  for (let i = 1; i <= 4; i++) {
+    text.style.setProperty(
+      "--drift" + i,
+      (Math.random() * 150 - 75) + "px"
+    );
+  }
+
+  text.style.setProperty(
+    "--duration",
+    (2.5 + Math.random() * 2.5) + "s"
+  );
+
+  rain.appendChild(text);
+
+  setTimeout(() => text.remove(), 5200);
+}
+
+/* AUDIO ANALYSER */
+async function startFM() {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
+
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      analyser.smoothingTimeConstant = 0.78;
+
+      audioSource = audioCtx.createMediaElementSource(music);
+      audioSource.connect(analyser);
+      analyser.connect(audioCtx.destination);
+
+      freqData = new Uint8Array(analyser.frequencyBinCount);
+    }
+
+    if (audioCtx.state === "suspended") {
+      await audioCtx.resume();
+    }
+
+    animateFM();
+  } catch (error) {
+    console.error("Audio visualizer error:", error);
+  }
+}
+
+/* MUSIC-REACTIVE EQUALIZER */
+function animateFM() {
+  if (rafId !== null) cancelAnimationFrame(rafId);
+
+  const bars = [...fmBars.children];
+
+  function frame() {
+    rafId = requestAnimationFrame(frame);
+
+    if (!analyser || music.paused) {
+      bars.forEach(bar => bar.style.height = "4px");
+      return;
+    }
+
+    analyser.getByteFrequencyData(freqData);
+
+    let energy = 0;
+
+    bars.forEach((bar, i) => {
+      const index = Math.min(
+        freqData.length - 1,
+        Math.floor(i * freqData.length / bars.length)
+      );
+
+      const value = freqData[index] / 255;
+      energy += value;
+      bar.style.height = (4 + value * 60) + "px";
+    });
+
+    energy /= bars.length;
+
+    const now = performance.now();
+
+    if (energy > 0.27 && now - lastBeat > 500) {
+      lastBeat = now;
+
+      page2.classList.remove("bounce");
+      void page2.offsetWidth;
+      page2.classList.add("bounce");
+    }
+  }
+
+  frame();
+}
+
+/* PRESS BUTTON */
+btn.addEventListener("click", async () => {
+  if (started) return;
+  started = true;
+
+  btn.style.transform = "translateY(10px) scale(.97)";
+
+  if (navigator.vibrate) navigator.vibrate(45);
+
+  setTimeout(async () => {
+    page1.style.display = "none";
+    page2.style.display = "flex";
+
+    music.volume = 0.85;
+
+    try {
+      await music.play();
+      await startFM();
+    } catch (error) {
+      console.warn(
+        "Check the music filename and make sure the audio file exists.",
+        error
+      );
+    }
+
+    // Lots of independently positioned falling text
+    for (let i = 0; i < 12; i++) {
+      setTimeout(createText, i * 100);
+    }
+
+    setInterval(createText, 300);
+
+  }, 150);
+});
+</script>
+
+</body>
+</html>
